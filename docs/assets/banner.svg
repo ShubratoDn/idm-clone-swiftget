@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="SwiftGet - fast, free and open-source download manager for Windows">
+  <defs>
+    <linearGradient id="bgg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3c5d"/>
+      <stop offset="1" stop-color="#0b6e8a"/>
+    </linearGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1fb7a6"/>
+      <stop offset="1" stop-color="#0b6e8a"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3ee0c1"/>
+      <stop offset="1" stop-color="#7fd3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="360" fill="url(#bgg)"/>
+  <g opacity="0.08" fill="#fff">
+    <circle cx="1180" cy="40" r="160"/>
+    <circle cx="1060" cy="380" r="120"/>
+  </g>
+
+  <!-- logo -->
+  <g transform="translate(90 70) scale(0.215)">
+    <rect x="48" y="48" width="928" height="928" rx="210" fill="url(#tile)"/>
+    <rect x="48" y="48" width="928" height="464" rx="210" fill="#fff" opacity="0.10"/>
+    <rect x="200" y="300" width="150" height="56" rx="28" fill="#fff" opacity="0.55"/>
+    <rect x="160" y="430" width="190" height="56" rx="28" fill="#fff" opacity="0.75"/>
+    <rect x="200" y="560" width="150" height="56" rx="28" fill="#fff" opacity="0.55"/>
+    <path d="M520 200 h170 v300 h130 L605 760 L390 500 h130 z" fill="#fff"/>
+    <rect x="380" y="800" width="450" height="70" rx="35" fill="#fff"/>
+  </g>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" fill="#fff">
+    <text x="330" y="150" font-size="76" font-weight="700">SwiftGet</text>
+    <text x="332" y="198" font-size="28" opacity="0.92">Fast, free &amp; open-source download manager for Windows</text>
+  </g>
+
+  <!-- segmented progress illustration -->
+  <g transform="translate(332 232)">
+    <rect width="820" height="22" rx="11" fill="#ffffff" opacity="0.15"/>
+    <rect x="0" width="180" height="22" rx="11" fill="url(#bar)"/>
+    <rect x="205" width="150" height="22" rx="11" fill="url(#bar)"/>
+    <rect x="410" width="170" height="22" rx="11" fill="url(#bar)"/>
+    <rect x="615" width="120" height="22" rx="11" fill="url(#bar)"/>
+    <g fill="#ffcf5c">
+      <rect x="205" y="-4" width="3" height="30"/>
+      <rect x="410" y="-4" width="3" height="30"/>
+      <rect x="615" y="-4" width="3" height="30"/>
+    </g>
+  </g>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="17" fill="#d9f4ff">
+    <text x="332" y="300">Multi-connection  •  Dynamic segmentation  •  Resume  •  Scheduler  •  HLS video  •  Chrome &amp; Edge</text>
+  </g>
+</svg>

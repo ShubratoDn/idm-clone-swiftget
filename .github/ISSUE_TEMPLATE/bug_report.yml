@@ -1,0 +1,55 @@
+name: Bug report
+description: Something in SwiftGet does not work as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report a problem. Please fill in as much as you can.
+  - type: input
+    id: version
+    attributes:
+      label: SwiftGet version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 23H2"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Download URL (if relevant and public)
+      description: Do not paste private or signed links.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Click Add URL
+        2. Paste ...
+        3. ...
+  - type: dropdown
+    id: source
+    attributes:
+      label: How was the download added?
+      options:
+        - Add URL dialog
+        - Browser extension (download capture)
+        - Browser extension (context menu)
+        - Browser extension (detected video)
+        - Not download related
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error message or screenshot
