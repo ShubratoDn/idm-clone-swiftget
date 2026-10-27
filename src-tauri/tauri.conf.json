@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SwiftGet",
+  "version": "1.0.0",
+  "identifier": "com.swiftget.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "SwiftGet",
+        "width": 1000,
+        "height": 620,
+        "minWidth": 720,
+        "minHeight": 420,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "msi"],
+    "publisher": "Shubrato Debnath",
+    "copyright": "Copyright (c) 2026 Shubrato Debnath. MIT License.",
+    "category": "Utility",
+    "shortDescription": "Fast multi-connection download manager",
+    "longDescription": "SwiftGet is a free, open-source download manager for Windows. It accelerates downloads with multiple connections and dynamic segmentation, resumes broken downloads, schedules queues, limits speed, downloads HLS video and integrates with Chrome and Edge.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

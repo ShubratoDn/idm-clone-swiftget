@@ -1,0 +1,48 @@
+{
+  "name": "swiftget",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SwiftGet - fast, free and open-source download manager for Windows with multi-connection downloads, resume, scheduler and browser integration.",
+  "author": "Shubrato Debnath <shubratodn44985@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/ShubratoDn/idm-clone-swiftget#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShubratoDn/idm-clone-swiftget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ShubratoDn/idm-clone-swiftget/issues"
+  },
+  "keywords": [
+    "download-manager",
+    "download-accelerator",
+    "idm-alternative",
+    "multi-connection",
+    "segmented-download",
+    "resume-download",
+    "hls-downloader",
+    "tauri",
+    "rust",
+    "windows"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-dialog": "^2.8.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}
