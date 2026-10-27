@@ -13,7 +13,7 @@ use tokio::sync::Mutex as AsyncMutex;
 use tokio_util::sync::CancellationToken;
 
 use super::limiter::RateLimiter;
-use super::{error_text, unique_path, Outcome, RequestInfo, TaskShared};
+use super::{error_text, rename_with_retry, unique_path, Outcome, RequestInfo, TaskShared};
 
 type Aes128CbcDec = cbc::Decryptor<aes::Aes128>;
 
@@ -132,7 +132,9 @@ impl HlsTask {
         };
         let ext = source.extension().unwrap().to_string_lossy().into_owned();
         let target = unique_path(&dir, &format!("{stem}.{ext}"), |p| p.exists());
-        std::fs::rename(&source, &target).map_err(|e| format!("Cannot move finished file: {e}"))?;
+        rename_with_retry(&source, &target)
+            .await
+            .map_err(|e| format!("Cannot move finished file: {e}"))?;
         let _ = std::fs::remove_dir_all(&self.parts_dir);
         Ok(Outcome::Completed(
             target.file_name().unwrap().to_string_lossy().into_owned(),

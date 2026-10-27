@@ -145,6 +145,22 @@ pub fn unique_path(dir: &Path, name: &str, taken: impl Fn(&Path) -> bool) -> Pat
         .unwrap()
 }
 
+/// Renames a finished file, retrying for a few seconds: antivirus scanners (Windows Defender)
+/// briefly lock freshly written files, which makes an immediate rename fail.
+pub async fn rename_with_retry(from: &Path, to: &Path) -> std::io::Result<()> {
+    let mut attempt = 0;
+    loop {
+        match std::fs::rename(from, to) {
+            Ok(()) => return Ok(()),
+            Err(_) if attempt < 20 && from.exists() => {
+                attempt += 1;
+                tokio::time::sleep(Duration::from_millis(250)).await;
+            }
+            Err(e) => return Err(e),
+        }
+    }
+}
+
 pub fn error_text(e: &reqwest::Error) -> String {
     if e.is_timeout() {
         "Connection timed out".into()

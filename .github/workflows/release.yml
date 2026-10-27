@@ -14,9 +14,9 @@ jobs:
     name: Build installers and publish release
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
@@ -35,7 +35,7 @@ jobs:
 
       - name: Run tests
         working-directory: src-tauri
-        run: cargo test --locked
+        run: cargo test --locked -- --test-threads=1
 
       - name: Build installers
         run: npx tauri build

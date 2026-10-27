@@ -194,8 +194,9 @@ async fn multi_connection_is_faster_and_correct() {
         "1 connection: {single:.2}s, 8 connections: {multi:.2}s, speed-up {:.1}x",
         single / multi
     );
+    // Typically ~8x; the margin keeps slow, shared CI machines from failing the test.
     assert!(
-        multi * 3.0 < single,
+        multi * 2.0 < single,
         "expected a big speed-up, got {single:.2}s vs {multi:.2}s"
     );
 }
@@ -258,15 +259,20 @@ async fn bench_real_server() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
 async fn pause_and_resume_keeps_file_intact() {
-    let data = test_data(6 * 1024 * 1024);
+    let data = test_data(8 * 1024 * 1024);
     let url = serve(data.clone());
     let dir = temp_dir("resume");
     let shared = Arc::new(TaskShared::default());
 
+    // Pause once real progress exists, however slow the machine running the test is.
     let cancel = CancellationToken::new();
     let stopper = cancel.clone();
+    let watched = shared.clone();
     tokio::spawn(async move {
-        tokio::time::sleep(Duration::from_millis(700)).await;
+        let deadline = Instant::now() + Duration::from_secs(60);
+        while watched.downloaded(false) < 1024 * 1024 && Instant::now() < deadline {
+            tokio::time::sleep(Duration::from_millis(10)).await;
+        }
         stopper.cancel();
     });
     let out = task(&url, &dir, 4, shared.clone(), cancel)

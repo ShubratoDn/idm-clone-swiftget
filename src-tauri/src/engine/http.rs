@@ -18,7 +18,10 @@ use tokio_util::sync::CancellationToken;
 
 use super::limiter::RateLimiter;
 use super::probe::probe;
-use super::{error_text, set_sparse, unique_path, write_at, Outcome, RequestInfo, TaskShared};
+use super::{
+    error_text, rename_with_retry, set_sparse, unique_path, write_at, Outcome, RequestInfo,
+    TaskShared,
+};
 use crate::models::Segment;
 
 /// A range is only split when at least this much is left, so each half is at least 2 MB.
@@ -209,7 +212,8 @@ impl HttpTask {
             .to_string_lossy()
             .into_owned();
         let target = unique_path(&dir, &name, |p| p.exists());
-        std::fs::rename(&self.part_path, &target)
+        rename_with_retry(&self.part_path, &target)
+            .await
             .map_err(|e| format!("Cannot rename finished file: {e}"))?;
         Ok(Outcome::Completed(
             target.file_name().unwrap().to_string_lossy().into_owned(),

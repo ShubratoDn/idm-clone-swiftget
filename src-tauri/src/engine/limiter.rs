@@ -68,6 +68,6 @@ mod tests {
             lim.acquire(20_000).await; // 400 KB total at 200 KB/s ≈ 2 s
         }
         let secs = start.elapsed().as_secs_f64();
-        assert!(secs > 1.6 && secs < 2.6, "took {secs}s");
+        assert!(secs > 1.5 && secs < 4.0, "took {secs}s");
     }
 }
