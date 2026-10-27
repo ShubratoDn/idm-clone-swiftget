@@ -58,9 +58,26 @@ pub async fn add_download(m: M<'_>, req: AddRequest) -> Result<u64, String> {
 }
 
 #[tauri::command]
-pub fn start_downloads(m: M, ids: Vec<u64>) {
+pub fn start_downloads(app: AppHandle, m: M, ids: Vec<u64>) {
+    // Like IDM, resuming a download brings its progress window back.
+    let resumed: Vec<u64> = ids
+        .iter()
+        .copied()
+        .filter(|id| {
+            m.get(*id)
+                .is_some_and(|d| matches!(d.status, Status::Paused | Status::Failed))
+        })
+        .collect();
     m.inner().start(&ids);
+    if m.settings().show_progress_window {
+        // Resuming a large selection should not flood the screen with windows.
+        for id in resumed.into_iter().take(MAX_PROGRESS_WINDOWS_ON_RESUME) {
+            windows::open_progress(&app, id);
+        }
+    }
 }
+
+const MAX_PROGRESS_WINDOWS_ON_RESUME: usize = 3;
 
 #[tauri::command]
 pub fn pause_downloads(m: M, ids: Vec<u64>) {

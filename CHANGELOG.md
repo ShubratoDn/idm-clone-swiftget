@@ -24,6 +24,7 @@ First public release.
   and detection of video/audio streams on pages.
 - Classic desktop interface: categories tree, download list, Download File Info dialog, per-download progress
   window with a connection map, Download complete dialog, Options and Scheduler dialogs.
+- Resuming a download reopens its progress window; "Show download progress" in the right-click menu.
 - Automatic file categories (Compressed, Documents, Music, Programs, Video) with per-category folders.
 - System tray icon, close to tray, launch at Windows startup, clipboard URL prefill, single-instance app.
 - NSIS (`.exe`) and MSI installers.

@@ -169,7 +169,8 @@ If a single connection already fills your internet plan, no download manager can
 | --- | --- |
 | Add a download | **Add URL** (Ctrl+N), paste a link, then *Start Download* or *Download Later* |
 | Open a finished file | Double-click it |
-| Show live progress | Double-click an unfinished download |
+| Show live progress again | Double-click an unfinished download, right-click → **Show download progress**, or press **Resume** |
+| Bring back the main window | Click the SwiftGet icon in the system tray (closing the window keeps SwiftGet running) |
 | Resume / stop | Select downloads, then **Resume** / **Stop**, or use the right-click menu |
 | Download everything later | Add with *Download Later*, then **Start Queue** or use the **Scheduler** |
 | Limit bandwidth | **Speed Limiter** in the toolbar, or click the status bar |

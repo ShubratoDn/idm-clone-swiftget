@@ -87,7 +87,9 @@ export default function MainWindow() {
   const speedOn = (settings?.speedLimitKbps ?? 0) > 0;
 
   const fileItems: MenuEntry[] = [
-    { label: "Open", bold: true, disabled: single?.status !== "completed", onClick: () => single && api.openFile(single.id) },
+    single && single.status !== "completed"
+      ? { label: "Show download progress", bold: true, onClick: () => api.openProgress(single.id) }
+      : { label: "Open", bold: true, disabled: !single, onClick: () => single && api.openFile(single.id) },
     { label: "Open folder", disabled: !single, onClick: () => single && api.openFolder(single.id) },
     "sep",
     { label: "Resume download", disabled: !canResume, onClick: resume },
