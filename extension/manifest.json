@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "SwiftGet Integration",
+  "version": "1.0.0",
+  "description": "Sends browser downloads and detected video streams to the SwiftGet download manager.",
+  "icons": {
+    "16": "icons/16x16.png",
+    "32": "icons/32x32.png",
+    "48": "icons/48x48.png",
+    "128": "icons/128x128.png"
+  },
+  "action": {
+    "default_title": "SwiftGet",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16x16.png",
+      "32": "icons/32x32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["downloads", "cookies", "contextMenus", "webRequest", "storage", "tabs"],
+  "host_permissions": ["<all_urls>"]
+}

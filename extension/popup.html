@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <img src="icons/32x32.png" width="20" height="20" alt="" />
+      <b>SwiftGet</b>
+      <span id="status" class="pill">checking…</span>
+    </header>
+
+    <label class="row"><input type="checkbox" id="enabled" /> Capture downloads from this browser</label>
+
+    <section>
+      <h2>Media on this page</h2>
+      <div id="media"><p class="muted">Play a video to detect it.</p></div>
+    </section>
+
+    <details>
+      <summary>Settings</summary>
+      <label class="row">Port <input type="number" id="port" min="1024" max="65535" /></label>
+      <label class="row">Skip files smaller than <input type="number" id="minSize" min="0" /> KB</label>
+    </details>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

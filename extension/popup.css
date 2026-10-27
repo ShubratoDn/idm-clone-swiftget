@@ -1,0 +1,16 @@
+body { width: 330px; margin: 0; padding: 10px 12px; font: 12px "Segoe UI", system-ui, sans-serif; color: #111; background: #fff; }
+header { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; font-size: 14px; }
+.pill { margin-left: auto; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #eee; color: #555; }
+.pill.on { background: #e3f6e5; color: #1e7b34; }
+.pill.off { background: #fde7e7; color: #b42318; }
+.row { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
+.row input[type="number"] { width: 70px; }
+h2 { font-size: 12px; margin: 12px 0 6px; color: #0b3d91; }
+.muted { color: #777; margin: 4px 0; }
+.item { display: flex; align-items: center; gap: 6px; padding: 5px 0; border-top: 1px solid #eee; }
+.item .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .tag { font-size: 10px; padding: 1px 5px; background: #e8f1fb; color: #1565c0; border-radius: 3px; }
+button { font: inherit; padding: 3px 10px; border: 1px solid #adadad; background: #e1e1e1; cursor: pointer; }
+button:hover { background: #e5f1fb; border-color: #0078d7; }
+details { margin-top: 12px; }
+summary { cursor: pointer; color: #555; }
