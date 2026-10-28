@@ -40,6 +40,6 @@ windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_System_
 
 [profile.release]
 opt-level = 3
-lto = true
-codegen-units = 1
+# Thin LTO keeps release builds fast (CI and local) for a slightly larger exe.
+lto = "thin"
 strip = true

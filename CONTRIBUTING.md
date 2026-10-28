@@ -62,7 +62,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the download engine, ma
    git push origin main --tags
    ```
 
-The [Release workflow](.github/workflows/release.yml) runs the tests, builds the installers and the
+The [Release workflow](.github/workflows/release.yml) builds the installers and the
 browser-extension zip, and publishes them with SHA-256 checksums on the
 [Releases page](https://github.com/ShubratoDn/idm-clone-swiftget/releases).
 

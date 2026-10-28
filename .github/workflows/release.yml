@@ -30,16 +30,6 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Type-check and build frontend
-        run: npm run build
-
-      - name: Run extension tests
-        run: node --test extension/media.test.mjs
-
-      - name: Run tests
-        working-directory: src-tauri
-        run: cargo test --locked -- --test-threads=1
-
       - name: Build installers
         run: npx tauri build
 

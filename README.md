@@ -9,7 +9,6 @@ resumes broken downloads, schedules queues and integrates with Chrome and Edge.*
 
 [![Latest release](https://img.shields.io/github/v/release/ShubratoDn/idm-clone-swiftget?label=release&color=0b6e8a)](https://github.com/ShubratoDn/idm-clone-swiftget/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/ShubratoDn/idm-clone-swiftget/total?color=1fb7a6)](https://github.com/ShubratoDn/idm-clone-swiftget/releases)
-[![CI](https://github.com/ShubratoDn/idm-clone-swiftget/actions/workflows/ci.yml/badge.svg)](https://github.com/ShubratoDn/idm-clone-swiftget/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/github/license/ShubratoDn/idm-clone-swiftget?color=blue)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6?logo=windows)
 ![Built with Rust](https://img.shields.io/badge/engine-Rust-orange?logo=rust)
@@ -263,7 +262,7 @@ cargo test
 | Desktop shell | Tauri 2 (WebView2), system tray, notifications, autostart |
 | Interface | React 19, TypeScript, Vite |
 | Browser extension | Chrome/Edge Manifest V3 |
-| CI/CD | GitHub Actions (tests, Windows installers, releases) |
+| CI/CD | GitHub Actions (Windows installers, releases) |
 
 ### Project structure
 
