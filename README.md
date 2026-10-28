@@ -80,6 +80,8 @@ is under 3 MB.
 - **Chrome and Edge extension** that captures downloads with the page's cookies, referrer and user agent,
   so downloads that need you to be signed in work too.
 - **Download with SwiftGet** in the right-click menu for links, videos and audio.
+- **"Download this video" button** over videos on web pages, like IDM. It always downloads the **whole
+  video from the beginning**, even if you have only watched a few seconds.
 - **Video stream detection**: finds HLS (`.m3u8`) streams and media files on the page.
 - **HLS downloader**: best quality variant, parallel segments, AES-128 decryption, optional MP4 remux with ffmpeg.
 
@@ -113,6 +115,10 @@ is under 3 MB.
 
 Downloads whose file type is listed in **Options → File types** are handed to SwiftGet automatically;
 everything else stays in the browser. If SwiftGet is not running, the browser downloads normally.
+
+**Downloading videos:** play the video, move the mouse over it and click **Download this video**
+(or open the extension popup). SwiftGet downloads the complete file from the first byte with multiple
+connections. YouTube and DRM-protected sites are not supported.
 
 <details>
 <summary><b>What the extension can access and why</b></summary>

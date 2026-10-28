@@ -33,6 +33,9 @@ jobs:
       - name: Type-check and build frontend
         run: npm run build
 
+      - name: Run extension tests
+        run: node --test extension/media.test.mjs
+
       - name: Run tests
         working-directory: src-tauri
         run: cargo test --locked -- --test-threads=1
@@ -47,7 +50,7 @@ jobs:
           New-Item -ItemType Directory -Force release | Out-Null
           Copy-Item src-tauri/target/release/bundle/nsis/*.exe release/
           Copy-Item src-tauri/target/release/bundle/msi/*.msi release/
-          Compress-Archive -Path extension/* -DestinationPath "release/SwiftGet_browser-extension_$tag.zip"
+          Get-ChildItem extension -Exclude *.test.mjs | Compress-Archive -DestinationPath "release/SwiftGet_browser-extension_$tag.zip"
           Get-ChildItem release -File | ForEach-Object {
             "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name
           } | Set-Content -Encoding utf8 release/SHA256SUMS.txt

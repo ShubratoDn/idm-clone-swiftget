@@ -1,18 +1,6 @@
+import { displayName, formatSize } from "./media.js";
+
 const $ = (id) => document.getElementById(id);
-
-function nameOf(url) {
-  try {
-    const p = new URL(url).pathname.split("/").pop();
-    return decodeURIComponent(p) || url;
-  } catch {
-    return url;
-  }
-}
-
-function formatSize(n) {
-  if (!n) return "";
-  return n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`;
-}
 
 async function init() {
   const { cfg, app } = await chrome.runtime.sendMessage({ type: "status" });
@@ -29,29 +17,25 @@ async function init() {
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
-  const key = `media_${tab.id}`;
-  const list = (await chrome.storage.session.get({ [key]: [] }))[key];
-  if (!list.length) return;
+  const { media } = await chrome.runtime.sendMessage({ type: "media-list", tabId: tab.id });
+  if (!media.length) return;
 
   const box = $("media");
   box.textContent = "";
-  for (const m of list) {
+  for (const m of media) {
     const row = document.createElement("div");
     row.className = "item";
     const tag = document.createElement("span");
     tag.className = "tag";
-    tag.textContent = m.kind === "hls" ? "HLS" : "FILE";
+    tag.textContent = m.kind === "hls" ? "HLS" : (m.ext || "file").toUpperCase();
     const name = document.createElement("span");
     name.className = "name";
     name.title = m.url;
-    name.textContent = `${nameOf(m.url)} ${formatSize(m.size)}`;
+    name.textContent = `${displayName(m.url)} ${formatSize(m.size)}`;
     const btn = document.createElement("button");
     btn.textContent = "Download";
     btn.onclick = async () => {
-      const title = (tab.title || "video").replace(/[<>:"/\\|?*]+/g, " ").trim().slice(0, 120);
-      const payload = { url: m.url, referrer: tab.url, kind: m.kind };
-      if (m.kind === "hls") payload.fileName = `${title}.ts`;
-      const { ok } = await chrome.runtime.sendMessage({ type: "download", payload });
+      const { ok } = await chrome.runtime.sendMessage({ type: "download-media", entry: m, title: tab.title, pageUrl: tab.url });
       btn.textContent = ok ? "Sent ✓" : "Failed";
       btn.disabled = ok;
     };

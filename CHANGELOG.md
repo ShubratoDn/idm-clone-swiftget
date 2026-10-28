@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Added
+
+- "Download this video" button over videos on web pages (browser extension). When several streams are
+  found, it lists them best first.
+
+### Fixed
+
+- Videos played by a normal `<video>` element (for example on Fiverr) were not detected, because the
+  browser streams them with byte-range requests (HTTP 206). They are now detected with their full size
+  and downloaded from the first byte, however much the page has already played.
+
 ## [1.0.0] - 2026-10-27
 
 First public release.

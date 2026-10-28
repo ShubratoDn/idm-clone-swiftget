@@ -1,6 +1,8 @@
 // SwiftGet browser integration (Chrome / Edge, Manifest V3).
 // Talks to the desktop app over http://127.0.0.1:<port>, which only accepts extension origins.
 
+import { classify, downloadPayload, rankCandidates, stripRangeParams } from "./media.js";
+
 const DEFAULTS = { enabled: true, port: 52817, minSizeKB: 0 };
 const BYPASS_MS = 15000;
 
@@ -124,37 +126,44 @@ function notifyOffline() {
 // ---------- video stream detection ----------
 
 const MEDIA_KEY = (tabId) => `media_${tabId}`;
-
-function mediaKind(url, contentType) {
-  const path = url.split(/[?#]/)[0].toLowerCase();
-  const ct = (contentType || "").toLowerCase();
-  if (path.endsWith(".m3u8") || ct.includes("mpegurl")) return "hls";
-  if (/\.(mp4|webm|mkv|mov|m4v|mp3|m4a|flac)$/.test(path) || /^(video|audio)\//.test(ct)) return "http";
-  return null;
-}
+const MAX_MEDIA_PER_TAB = 30;
 
 chrome.webRequest.onHeadersReceived.addListener(
   (details) => {
     if (details.tabId < 0) return;
     const header = (n) => details.responseHeaders?.find((h) => h.name.toLowerCase() === n)?.value;
-    const kind = mediaKind(details.url, header("content-type"));
-    if (!kind) return;
-    const length = Number(header("content-length") || 0);
-    // Skip tiny files and individual stream chunks.
-    if (kind === "http" && (details.statusCode === 206 || (length > 0 && length < 512 * 1024))) return;
-    recordMedia(details.tabId, { url: details.url, kind, size: length || null, at: Date.now() });
+    const entry = classify({
+      url: details.url,
+      type: details.type,
+      statusCode: details.statusCode,
+      contentType: header("content-type"),
+      contentRange: header("content-range"),
+      contentLength: header("content-length"),
+    });
+    if (entry) recordMedia(details.tabId, { ...entry, at: Date.now() });
   },
   { urls: ["<all_urls>"], types: ["media", "xmlhttprequest", "other"] },
   ["responseHeaders"],
 );
 
-async function recordMedia(tabId, entry) {
+async function mediaFor(tabId) {
   const key = MEDIA_KEY(tabId);
-  const store = await chrome.storage.session.get({ [key]: [] });
-  const list = store[key];
-  if (list.some((m) => m.url === entry.url)) return;
+  return (await chrome.storage.session.get({ [key]: [] }))[key];
+}
+
+async function recordMedia(tabId, entry) {
+  const list = await mediaFor(tabId);
+  const existing = list.find((m) => m.url === entry.url);
+  if (existing) {
+    // A later response may reveal the size (e.g. the first one was "bytes 0-1/*").
+    if (!existing.size && entry.size) {
+      existing.size = entry.size;
+      await chrome.storage.session.set({ [MEDIA_KEY(tabId)]: list });
+    }
+    return;
+  }
   list.push(entry);
-  await chrome.storage.session.set({ [key]: list.slice(-30) });
+  await chrome.storage.session.set({ [MEDIA_KEY(tabId)]: list.slice(-MAX_MEDIA_PER_TAB) });
   chrome.action.setBadgeBackgroundColor({ color: "#0b6e8a", tabId });
   chrome.action.setBadgeText({ text: String(Math.min(list.length, 99)), tabId });
 }
@@ -167,15 +176,48 @@ chrome.tabs.onUpdated.addListener((tabId, change) => {
 });
 chrome.tabs.onRemoved.addListener((tabId) => chrome.storage.session.remove(MEDIA_KEY(tabId)));
 
-// ---------- popup messages ----------
+/** Candidates for the on-page button: the video's own address first (when it is a real URL), then what the tab loaded. */
+async function videoCandidates(tabId, src) {
+  const found = rankCandidates(await mediaFor(tabId));
+  if (src && /^https?:/i.test(src)) {
+    const clean = stripRangeParams(src);
+    const known = found.find((m) => m.url === clean);
+    const direct = known ?? {
+      kind: /\.m3u8(\?|#|$)/i.test(clean) ? "hls" : "http",
+      url: clean,
+      size: null,
+      ext: (/\.(\w{2,4})(\?|#|$)/.exec(new URL(clean).pathname)?.[1] ?? "mp4").toLowerCase(),
+    };
+    return [direct, ...found.filter((m) => m !== known)];
+  }
+  return found; // blob:/MediaSource players: only the network log knows the real address
+}
 
-chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+// ---------- messages from the popup and the on-page button ----------
+
+chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   (async () => {
     const cfg = await config();
-    if (msg.type === "status") {
-      reply({ cfg, app: await appInfo(cfg.port) });
-    } else if (msg.type === "download") {
-      reply({ ok: await sendToApp(cfg.port, msg.payload) });
+    switch (msg.type) {
+      case "status":
+        reply({ cfg, app: await appInfo(cfg.port) });
+        break;
+      case "media-list":
+        reply({ media: rankCandidates(await mediaFor(msg.tabId)) });
+        break;
+      case "video-candidates": {
+        const app = await appInfo(cfg.port);
+        const candidates = sender.tab ? await videoCandidates(sender.tab.id, msg.src) : [];
+        reply({ app: Boolean(app), candidates: candidates.slice(0, 8) });
+        break;
+      }
+      case "download-media": {
+        const payload = downloadPayload(msg.entry, msg.title ?? sender.tab?.title, msg.pageUrl ?? sender.tab?.url);
+        reply({ ok: await sendToApp(cfg.port, payload) });
+        break;
+      }
+      default:
+        reply(null);
     }
   })();
   return true; // async reply

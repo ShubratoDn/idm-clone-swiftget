@@ -33,6 +33,9 @@ jobs:
       - name: Type-check and build frontend
         run: npm run build
 
+      - name: Run extension tests
+        run: node --test extension/media.test.mjs
+
       - name: Run Rust tests
         working-directory: src-tauri
         run: cargo test --locked -- --test-threads=1

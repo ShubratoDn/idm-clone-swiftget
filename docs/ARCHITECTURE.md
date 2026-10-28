@@ -118,7 +118,12 @@ The extension:
 - intercepts `chrome.downloads` whose type matches the capture list, cancels them in the browser and sends
   them to SwiftGet with the page's cookies and referrer, falling back to the browser if the app is not running;
 - adds **Download with SwiftGet** to the link and media context menus;
-- watches responses for `.m3u8` playlists and media files and lists them in the popup.
+- watches responses for `.m3u8` playlists and media files (`extension/media.js`) and lists them in the
+  popup. Files played by a `<video>`/`<audio>` element are accepted even as `206` range replies, with
+  their size read from `Content-Range`; slice parameters such as `bytestart`/`byteend` are removed so
+  the download always covers the whole file. Pieces fetched by MediaSource players are ignored;
+- shows a **Download this video** button over videos (`extension/content.js`, in a closed Shadow DOM).
+  It offers the video's own URL first, then the streams the tab loaded.
 
 ## UI (`src/`)
 
