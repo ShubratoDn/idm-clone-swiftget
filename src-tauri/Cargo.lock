@@ -3815,7 +3815,7 @@ dependencies = [
 
 [[package]]
 name = "swiftget"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "aes",
  "arboard",

@@ -6,7 +6,8 @@ Security fixes are released for the latest version of SwiftGet.
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.x   | Yes       |
+| 1.1.x   | Yes       |
+| 1.0.x   | No        |
 
 ## Reporting a vulnerability
 

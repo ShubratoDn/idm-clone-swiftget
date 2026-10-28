@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getVersion } from "@tauri-apps/api/app";
 import { api, type Settings } from "../api";
 import Dialog from "../components/Dialog";
 import { AppLogo } from "../icons";
@@ -172,6 +173,10 @@ export function SpeedLimiterDialog({ settings, onClose }: { settings: Settings; 
 }
 
 export function AboutDialog({ onClose }: { onClose: () => void }) {
+  const [version, setVersion] = useState("");
+  useEffect(() => {
+    getVersion().then(setVersion).catch(() => {});
+  }, []);
   return (
     <Dialog
       title="About SwiftGet"
@@ -186,7 +191,7 @@ export function AboutDialog({ onClose }: { onClose: () => void }) {
       <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
         <AppLogo size={56} />
         <div>
-          <div style={{ fontSize: 16, fontWeight: 600 }}>SwiftGet 1.0</div>
+          <div style={{ fontSize: 16, fontWeight: 600 }}>SwiftGet {version}</div>
           <div className="hint" style={{ marginTop: 4 }}>
             Multi-connection download manager with dynamic file segmentation, resume support, scheduler, speed limiter and browser integration.
           </div>

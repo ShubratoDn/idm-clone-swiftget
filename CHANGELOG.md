@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-28
+
 ### Added
 
 - "Download this video" button over videos on web pages (browser extension). When several streams are
@@ -13,6 +15,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
+- The About dialog shows the real app version instead of a fixed number.
 - Videos played by a normal `<video>` element (for example on Fiverr) were not detected, because the
   browser streams them with byte-range requests (HTTP 206). They are now detected with their full size
   and downloaded from the first byte, however much the page has already played.
@@ -40,5 +43,6 @@ First public release.
 - System tray icon, close to tray, launch at Windows startup, clipboard URL prefill, single-instance app.
 - NSIS (`.exe`) and MSI installers.
 
-[Unreleased]: https://github.com/ShubratoDn/idm-clone-swiftget/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/ShubratoDn/idm-clone-swiftget/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/ShubratoDn/idm-clone-swiftget/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/ShubratoDn/idm-clone-swiftget/releases/tag/v1.0.0

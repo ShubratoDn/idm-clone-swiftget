@@ -1,7 +1,7 @@
 {
   "name": "swiftget",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "SwiftGet - fast, free and open-source download manager for Windows with multi-connection downloads, resume, scheduler and browser integration.",
   "author": "Shubrato Debnath <shubratodn44985@gmail.com>",
   "license": "MIT",
